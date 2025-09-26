@@ -1,15 +1,13 @@
 import csv
 import feedparser
 from datetime import datetime, timedelta
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Template
 import re
 from html import unescape
 from bs4 import BeautifulSoup
 
 # Fichiers
 CSV_FILE = "client_rss_feeds_cleaned.csv"
-TEMPLATE_DIR = "templates"
-TEMPLATE_FILE = "press_review_template.tex"
 OUTPUT_TEX = "press_review.tex"
 
 # Fonction d’échappement LaTeX
@@ -35,7 +33,7 @@ def escape_latex(text):
 def clean_html(text):
     if not text:
         return ""
-    soup = BeautifulSoup(unescape(text), "html.parser")
+    BeautifulSoup(unescape(text), "html.parser")
     return soup.get_text(separator=" ", strip=True)
 
 # Fenêtre temporelle : 31 derniers jours
@@ -82,10 +80,46 @@ with open(CSV_FILE, newline='', encoding='utf-8') as f:
         else:
             print(f"⚠️ {company_name}: aucun article trouvé")
 
-# Rendu LaTeX
-env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
-template = env.get_template(TEMPLATE_FILE)
+# Template LaTeX intégré
+latex_template = r"""
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{graphicx}
+\geometry{margin=2.5cm}
 
+\title{Weekly Press Review}
+\author{Hertz International Strategic Account}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Generated on {{ generated_date }}}
+
+{% for company in companies %}
+\section*{ {{ company.company }} }
+
+{% for article in company.articles %}
+\subsection*{ {{ article.title }} }
+
+\textbf{Published:} {{ article.published }} \\
+\textbf{Link:} \href{ {{ article.link }} }{ {{ article.link }} } \\
+\textbf{Summary:} {{ article.summary }}
+
+\vspace{0.5cm}
+{% endfor %}
+
+{% endfor %}
+
+\end{document}
+"""
+
+# Rendu LaTeX
+template = Template(latex_template)
 rendered_tex = template.render(
     generated_date=now.strftime("%Y-%m-%d"),
     companies=companies
