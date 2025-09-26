@@ -1,5 +1,5 @@
-with open("press_review_template.tex", "w", encoding="utf-8") as f:
-    f.write(r"""\documentclass[11pt]{article}
+corrected_template = r"""
+\documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,margin=2.5cm]{geometry}
 \usepackage{lmodern}
@@ -50,4 +50,7 @@ with open("press_review_template.tex", "w", encoding="utf-8") as f:
 {% endfor %}
 
 \end{document}
-""")
+"""
+
+with open("press_review_template.tex", "w", encoding="utf-8") as f:
+    f.write(corrected_template)
