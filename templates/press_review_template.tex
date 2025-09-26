@@ -1,6 +1,5 @@
-# Correction du template LaTeX pour éviter les erreurs d'Overfull \hbox et de caractère mal placé '&'
-corrected_template = r"""
-\documentclass[11pt]{article}
+with open("press_review_template.tex", "w", encoding="utf-8") as f:
+    f.write(r"""\documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,margin=2.5cm]{geometry}
 \usepackage{lmodern}
@@ -11,8 +10,8 @@ corrected_template = r"""
 \usepackage{tocloft}
 \usepackage{enumitem}
 \usepackage{datetime}
-\usepackage{url}  % Ajouté pour gérer les liens longs
-\def\UrlBreaks{\do\/\do-}  % Permet de couper les URL longues
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -27,8 +26,7 @@ corrected_template = r"""
 \setlength{\parindent}{0pt}
 
 \begin{document}
-\sloppy  % Permet d'éviter les Overfull \hbox
-
+\sloppy
 \begin{center}
     {\LARGE \textbf{Weekly Press Review}}\\
     \vspace{0.5em}
@@ -45,15 +43,11 @@ corrected_template = r"""
 \subsection{ {{ article.title }} }
 \textbf{Published:} {{ article.published }} \\
 \textbf{Summary:} {{ article.summary }} \\
-\textbf{Link:} \url{{ {{ article.link }} }}
+\textbf{Link:} \url{ {{ article.link }} }
 
 \vspace{1em}
 {% endfor %}
 {% endfor %}
 
 \end{document}
-"""
-
-# Sauvegarde du template corrigé dans le fichier press_review_template.tex
-with open("press_review_template.tex", "w", encoding="utf-8") as f:
-    f.write(corrected_template)
+""")
