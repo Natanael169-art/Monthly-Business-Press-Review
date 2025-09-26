@@ -1,0 +1,9 @@
+pandas
+feedparser
+feedgen
+PyMuPDF
+weasyprint
+requests
+beautifulsoup4
+pymupdf
+jinja2
