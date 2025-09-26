@@ -36,7 +36,7 @@ jobs:
       - name: Check LaTeX file content
         run: |
           head -n 20 press_review.tex
-          grep "\\begin{document}" press_review.tex || (echo "❌ Erreur : \\begin{document} manquant" && exit 1)
+          grep -F '\begin{document}' press_review.tex || (echo "❌ Erreur : \\begin{document} manquant" && exit 1)
 
       - name: Compile LaTeX to PDF
         run: tectonic press_review.tex
