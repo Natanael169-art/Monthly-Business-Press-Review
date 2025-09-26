@@ -83,7 +83,7 @@ with open(CSV_FILE, newline='', encoding='utf-8') as f:
             print(f"⚠️ {company_name}: aucun article trouvé")
 
 # Rendu LaTeX
-env = Environment(loader=FileSystemLoader(TEMPLATE_DIR), block_start_string='{%', block_end_string='%}', variable_start_string='{{', variable_end_string='}}')
+env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
 template = env.get_template(TEMPLATE_FILE)
 
 rendered_tex = template.render(
@@ -91,11 +91,8 @@ rendered_tex = template.render(
     companies=companies
 )
 
-# Ajout de sécurité : s'assurer que le document contient bien les balises LaTeX essentielles
-if "\\begin{document}" not in rendered_tex or "\\end{document}" not in rendered_tex:
-    print("❌ Erreur : le template LaTeX est incomplet. Vérifiez qu'il contient \\begin{document} et \\end{document}.")
-else:
-    # Écriture du fichier .tex
-    with open(OUTPUT_TEX, "w", encoding="utf-8") as f:
-        f.write(rendered_tex)
-    print(f"\n✅ Fichier LaTeX généré : {OUTPUT_TEX}")
+# Écriture du fichier .tex
+with open(OUTPUT_TEX, "w", encoding="utf-8") as f:
+    f.write(rendered_tex)
+
+print(f"\n✅ Fichier LaTeX généré : {OUTPUT_TEX}")
