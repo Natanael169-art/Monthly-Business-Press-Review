@@ -16,10 +16,12 @@ OUTPUT_TEX = "press_review.tex"
 def escape_latex(text):
     if not text:
         return ""
+    # Remplacement des caractères Unicode problématiques
+    text = text.replace("’", "'").replace("“", "\"").replace("”", "\"").replace("–", "-").replace("—", "--")
+
     replacements = {
         '\\': r'\textbackslash{}',
-        '&amp;amp;': r'\&amp;amp;',
-        '&amp;': r'\&amp;',
+        '&': r'\&',
         '%': r'\%',
         '$': r'\$',
         '#': r'\#',
