@@ -1,6 +1,6 @@
-from jinja2 import Environment, FileSystemLoader
+# Script corrigé pour écrire une seule fois le template LaTeX dans le fichier
 
-# Contenu corrigé du template LaTeX
+# Définition du contenu du template LaTeX
 latex_template = r"""
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -55,10 +55,8 @@ latex_template = r"""
 \end{document}
 """
 
-# Écriture du template corrigé dans le fichier press_review_template.tex
+# Écriture du template dans le fichier press_review_template.tex
 with open("press_review_template.tex", "w", encoding="utf-8") as f:
     f.write(latex_template)
 
 print("✅ Le fichier press_review_template.tex a été corrigé et sauvegardé.")
-with open("press_review_template.tex", "w", encoding="utf-8") as f:
-    f.write(corrected_template)
