@@ -27,15 +27,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y snapd
-          sudo snap install tectonic
+          sudo snap install --classic tectonic
+          echo "/snap/bin" >> $GITHUB_PATH
 
       - name: Generate LaTeX file from RSS feeds
         run: python scripts/generate_tex_from_rss.py
 
-      - name: Compile LaTeX to PDF
-        run: tectonic press_review.tex
-
-      - name: Send PDF via SendGrid
-        env:
-          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-        run: python scripts/send_email.py
+      - name: Check LaTeX file content
+        run: |
+          head -n 20 press_review.tex
