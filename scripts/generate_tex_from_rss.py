@@ -18,8 +18,8 @@ def escape_latex(text):
         return ""
     replacements = {
         '\\': r'\textbackslash{}',
+        '&amp;amp;': r'\&amp;amp;',
         '&amp;': r'\&amp;',
-        '&': r'\&',
         '%': r'\%',
         '$': r'\$',
         '#': r'\#',
@@ -39,9 +39,9 @@ def clean_html(text):
     soup = BeautifulSoup(unescape(text), "html.parser")
     return soup.get_text(separator=" ", strip=True)
 
-# Fenêtre temporelle
+# Fenêtre temporelle : 31 derniers jours
 now = datetime.utcnow()
-seven_days_ago = now - timedelta(days=7)
+thirty_one_days_ago = now - timedelta(days=31)
 
 # Lecture des flux RSS
 companies = []
@@ -61,11 +61,11 @@ with open(CSV_FILE, newline='', encoding='utf-8') as f:
             pub_date = entry.get("published_parsed") or entry.get("updated_parsed")
             if pub_date:
                 pub_datetime = datetime(*pub_date[:6])
-                if pub_datetime >= seven_days_ago:
+                if pub_datetime >= thirty_one_days_ago:
                     title = escape_latex(entry.get("title", "No title"))
                     summary = escape_latex(clean_html(entry.get("summary", "")))
                     published = escape_latex(entry.get("published", "") or entry.get("updated", ""))
-                    link = escape_latex(entry.get("link", ""))  # ✅ échappement ajouté
+                    link = escape_latex(entry.get("link", ""))
 
                     recent_articles.append({
                         "title": title,
