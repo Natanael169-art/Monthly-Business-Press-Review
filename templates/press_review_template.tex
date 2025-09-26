@@ -1,0 +1,48 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage{datetime}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Weekly Press Review}
+\lhead{\today}
+\cfoot{\thepage}
+
+\titleformat{\section}{\Large\bfseries\sffamily\color{blue}}{}{0em}{}
+\titleformat{\subsection}{\bfseries\color{black}}{}{0em}{}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\begin{center}
+    {\LARGE \textbf{Weekly Press Review}}\\
+    \vspace{0.5em}
+    \textit{Generated on {{ generated_date }}}
+\end{center}
+
+\vspace{1em}
+\tableofcontents
+\newpage
+
+{% for company in companies %}
+\section{ {{ company.company }} }
+{% for article in company.articles %}
+\subsection{ {{ article.title }} }
+\textbf{Published:} {{ article.published }} \\
+\textbf{Summary:} {{ article.summary }} \\
+\textbf{Link:} \url{ {{ article.link }} }
+
+\vspace{1em}
+{% endfor %}
+{% endfor %}
+
+\end{document}
