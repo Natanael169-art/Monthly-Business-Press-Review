@@ -21,7 +21,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install feedparser jinja2 beautifulsoup4 requests
+          pip install feedparser jinja2 beautifulsoup4 requests sendgrid
 
       - name: Install Snap and Tectonic
         run: |
@@ -36,3 +36,14 @@ jobs:
       - name: Check LaTeX file content
         run: |
           head -n 20 press_review.tex
+          grep "\\begin{document}" press_review.tex || (echo "❌ Erreur : \\begin{document} manquant" && exit 1)
+
+      - name: Compile LaTeX to PDF
+        run: tectonic press_review.tex
+
+      - name: Check PDF output
+        run: ls -lh press_review.pdf
+
+      - name: Send PDF via SendGrid
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
