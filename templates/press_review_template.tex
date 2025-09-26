@@ -6,7 +6,7 @@ import re
 from html import unescape
 from bs4 import BeautifulSoup
 
-# Fichiers
+# Fichier CSV contenant les flux RSS
 CSV_FILE = "client_rss_feeds_cleaned.csv"
 OUTPUT_TEX = "press_review.tex"
 
@@ -33,7 +33,7 @@ def escape_latex(text):
 def clean_html(text):
     if not text:
         return ""
-    BeautifulSoup(unescape(text), "html.parser")
+    soup = BeautifulSoup(unescape(text), "html.parser")
     return soup.get_text(separator=" ", strip=True)
 
 # Fenêtre temporelle : 31 derniers jours
@@ -80,14 +80,13 @@ with open(CSV_FILE, newline='', encoding='utf-8') as f:
         else:
             print(f"⚠️ {company_name}: aucun article trouvé")
 
-# Template LaTeX intégré
+# Template LaTeX intégré dans le script
 latex_template = r"""
 \documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{hyperref}
 \usepackage{geometry}
-\usepackage{graphicx}
 \geometry{margin=2.5cm}
 
 \title{Weekly Press Review}
@@ -118,7 +117,7 @@ latex_template = r"""
 \end{document}
 """
 
-# Rendu LaTeX
+# Rendu LaTeX avec Jinja2
 template = Template(latex_template)
 rendered_tex = template.render(
     generated_date=now.strftime("%Y-%m-%d"),
