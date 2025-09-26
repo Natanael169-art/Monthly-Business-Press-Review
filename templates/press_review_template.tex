@@ -1,4 +1,7 @@
-corrected_template = r"""
+from jinja2 import Environment, FileSystemLoader
+
+# Contenu corrigé du template LaTeX
+latex_template = r"""
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,margin=2.5cm]{geometry}
@@ -52,5 +55,10 @@ corrected_template = r"""
 \end{document}
 """
 
+# Écriture du template corrigé dans le fichier press_review_template.tex
+with open("press_review_template.tex", "w", encoding="utf-8") as f:
+    f.write(latex_template)
+
+print("✅ Le fichier press_review_template.tex a été corrigé et sauvegardé.")
 with open("press_review_template.tex", "w", encoding="utf-8") as f:
     f.write(corrected_template)
