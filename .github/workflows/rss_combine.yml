@@ -47,3 +47,4 @@ jobs:
       - name: Send PDF via SendGrid
         env:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: python scripts/send_email.py
