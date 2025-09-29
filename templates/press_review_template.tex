@@ -1,10 +1,7 @@
-import os
+# Script to create the LaTeX template file with the desired layout and Jinja2 placeholders
 
-# Créer le dossier 'templates' s'il n'existe pas
-os.makedirs("templates", exist_ok=True)
-
-# Contenu du template LaTeX avec mise en page complète
-template_content = r"""
+# Define the LaTeX template content
+latex_template_content = r"""
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,margin=2.5cm]{geometry}
@@ -55,8 +52,12 @@ template_content = r"""
 \end{document}
 """
 
-# Enregistrer le template dans le fichier
-with open("templates/press_review_template.tex", "w", encoding="utf-8") as f:
-    f.write(template_content)
+# Create the templates directory if it doesn't exist
+import os
+os.makedirs("templates", exist_ok=True)
 
-print("✅ Nouveau template LaTeX enregistré dans templates/press_review_template.tex")
+# Write the template content to the file
+with open("templates/press_review_template.tex", "w", encoding="utf-8") as f:
+    f.write(latex_template_content)
+
+print("✅ Le fichier LaTeX press_review_template.tex a été créé avec succès dans le dossier templates/.")
