@@ -1,7 +1,3 @@
-# Script to create the LaTeX template file with the desired layout and Jinja2 placeholders
-
-# Define the LaTeX template content
-latex_template_content = r"""
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,margin=2.5cm]{geometry}
@@ -50,14 +46,3 @@ latex_template_content = r"""
 {% endfor %}
 
 \end{document}
-"""
-
-# Create the templates directory if it doesn't exist
-import os
-os.makedirs("templates", exist_ok=True)
-
-# Write the template content to the file
-with open("templates/press_review_template.tex", "w", encoding="utf-8") as f:
-    f.write(latex_template_content)
-
-print("✅ Le fichier LaTeX press_review_template.tex a été créé avec succès dans le dossier templates/.")
