@@ -1,33 +1,62 @@
-\documentclass[a4paper,12pt]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{hyperref}
-\usepackage{geometry}
-\geometry{margin=2.5cm}
+import os
 
-\title{Weekly Press Review}
-\author{Hertz International Strategic Account}
-\date{\today}
+# Créer le dossier 'templates' s'il n'existe pas
+os.makedirs("templates", exist_ok=True)
+
+# Contenu du template LaTeX avec mise en page complète
+template_content = r"""
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage{datetime}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Weekly Press Review}
+\lhead{\today}
+\cfoot{\thepage}
+
+\titleformat{\section}{\Large\bfseries\sffamily\color{blue}}{}{0em}{}
+\titleformat{\subsection}{\bfseries\color{black}}{}{0em}{}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
 
 \begin{document}
+\begin{center}
+    {\LARGE \textbf{Weekly Press Review}}\\
+    \vspace{0.5em}
+    \textit{Generated on {{ generated_date }}}
+\end{center}
 
-\maketitle
-
-\section*{Generated on {{ generated_date }}}
+\vspace{1em}
+\tableofcontents
+\newpage
 
 {% for company in companies %}
-\section*{ {{ company.company }} }
-
+\section{ {{ company.company }} }
 {% for article in company.articles %}
-\subsection*{ {{ article.title }} }
-
+\subsection{ {{ article.title }} }
 \textbf{Published:} {{ article.published }} \\
-\textbf{Link:} \href{ {{ article.link }} }{ {{ article.link }} } \\
-\textbf{Summary:} {{ article.summary }}
+\textbf{Summary:} {{ article.summary }} \\
+\textbf{Link:} \url{ {{ article.link }} }
 
-\vspace{0.5cm}
+\vspace{1em}
 {% endfor %}
-
 {% endfor %}
 
 \end{document}
+"""
+
+# Enregistrer le template dans le fichier
+with open("templates/press_review_template.tex", "w", encoding="utf-8") as f:
+    f.write(template_content)
+
+print("✅ Nouveau template LaTeX enregistré dans templates/press_review_template.tex")
